@@ -1,4 +1,5 @@
-/* Create table about the people and what they do here */
+--Create an actors database 
+
 CREATE TABLE actors (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     fullname TEXT,
@@ -9,6 +10,8 @@ INSERT INTO actors (fullname, age) VALUES ("Georgia Tennant", "38");
 INSERT INTO actors (fullname, age) VALUES ("Brad Pitt", "59");
 INSERT INTO actors (fullname, age) VALUES ("Robert Downey Jr.", "57");
 INSERT INTO actors (fullname, age) VALUES ("David Tennant", "51");
+
+-Create a database of movies and tv shows relating to actors
 
 CREATE table screen_performance (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -26,6 +29,8 @@ INSERT INTO screen_performance (person_id, name) VALUES (4, "Iron Man");
 INSERT INTO screen_performance (person_id, name) VALUES (4, "Sherlock Holmes");
 INSERT INTO screen_performance (person_id, name) VALUES (5, "Doctor Who");
 
+--Create a spouses database of married actors
+
 CREATE table spouses (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     person1_id INTEGER,
@@ -33,7 +38,11 @@ CREATE table spouses (
 
 INSERT INTO spouses (person1_id, person2_id)
     VALUES (2, 5);
-    
+        
+--Use inner join and self join to display actors and their spouses;
+
 Select a.fullname, b.fullname from spouses join actors a on a.id=spouses.person1_id join actors b on b.id=spouses.person2_id;
+
+--Use inner join to display actors with their screen performances
 
 Select actors.fullname, screen_performance.name from actors join screen_performance on actors.id=screen_performance.person_id order by actors.fullname;
