@@ -1,0 +1,39 @@
+/* Create table about the people and what they do here */
+CREATE TABLE actors (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    fullname TEXT,
+    age INTEGER);
+    
+INSERT INTO actors (fullname, age) VALUES ("Angelina Jolie", "47");
+INSERT INTO actors (fullname, age) VALUES ("Georgia Tennant", "38");
+INSERT INTO actors (fullname, age) VALUES ("Brad Pitt", "59");
+INSERT INTO actors (fullname, age) VALUES ("Robert Downey Jr.", "57");
+INSERT INTO actors (fullname, age) VALUES ("David Tennant", "51");
+
+CREATE table screen_performance (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    person_id INTEGER,
+    name TEXT);
+    
+INSERT INTO screen_performance (person_id, name) VALUES (1, "Mr. and Mrs. Smith");
+INSERT INTO screen_performance (person_id, name) VALUES (1, "Maleficent");
+INSERT INTO screen_performance (person_id, name) VALUES (2, "Doctor Who");
+INSERT INTO screen_performance (person_id, name) VALUES (3, "Ocean's Eleven");
+INSERT INTO screen_performance (person_id, name) VALUES (3, "Mr. and Mrs. Smith");
+INSERT INTO screen_performance (person_id, name) VALUES (3, "Fight Club");
+INSERT INTO screen_performance (person_id, name) VALUES (4, "Avengers");
+INSERT INTO screen_performance (person_id, name) VALUES (4, "Iron Man");
+INSERT INTO screen_performance (person_id, name) VALUES (4, "Sherlock Holmes");
+INSERT INTO screen_performance (person_id, name) VALUES (5, "Doctor Who");
+
+CREATE table spouses (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    person1_id INTEGER,
+    person2_id INTEGER);
+
+INSERT INTO spouses (person1_id, person2_id)
+    VALUES (2, 5);
+    
+Select a.fullname, b.fullname from spouses join actors a on a.id=spouses.person1_id join actors b on b.id=spouses.person2_id;
+
+Select actors.fullname, screen_performance.name from actors join screen_performance on actors.id=screen_performance.person_id order by actors.fullname;
