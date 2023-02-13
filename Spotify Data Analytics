@@ -1,0 +1,45 @@
+--I downloaded a Spotify Dataset from Kaggle, created a table to insert the data into, and analyzed the data using SQL.
+
+--Create table
+
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+song_key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+song_mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness text NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL )
+
+--Which artists that have more than one song in the 2021 Spotify top 50?
+
+Select * from BIT_DB.SpotifyData
+where artist_name in
+ (select artist_name from BIT_DB.spotifydata 
+ group by artist_name having count(*) >1)
+ order by artist_name;
+ 
+ --What songs in the 2021 Spotify Top 50 have popularity under 80?
+ 
+Select * from BIT_DB.SpotifyData
+where popularity < 80;
+
+--Who are the top 10 artists based on popularity?
+
+Select distinct artist_name
+from BIT_DB.SpotifyData
+Order by popularity desc
+Limit 10;
+
+
