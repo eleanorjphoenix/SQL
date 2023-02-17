@@ -107,3 +107,25 @@ where invoices.invoicedate like '2009%'
 group by employees.firstname
 order by sum(invoices.total) 
 desc limit 1;
+
+--15. Display the customers' names with their invoice totals categorized as small, medium, and large orders.
+
+Select invoices.total,
+case when
+total < 2 then 'small'
+when total > 2 and total < 10 then 'medium'
+else 'large'
+end as "order size", 
+customers.firstname, customers.lastname
+from invoices
+join customers
+on invoices.customerid = customers.customerid
+order by total;
+
+--16. Display each employee with the name of the person they report to. 
+
+Select a.firstname ||' ' || a.lastname as employeename,
+ b.firstname ||' ' ||  b.lastname as supervisorname
+from employees a
+join employees b
+on a.reportsto = b.employeeid;
