@@ -1,0 +1,109 @@
+--I downloaded the chinook database and used SQL to query the database to answer questions about it.
+
+--1. Show Customers (their full names, customer ID, and country) who are not in the US. 
+
+Select firstname, lastname, customerid, country from customers where country <> 'USA';
+
+--2. Show only the Customers from Brazil.
+
+Select * from customers where country = 'Brazil';
+
+--3. Find the Invoices of customers who are from Brazil. The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing country.
+
+Select customers.firstname ||' '|| customers.lastname as customerfullname, 
+invoices.invoiceid, invoices.invoicedate, invoices.billingcountry
+from customers
+join invoices 
+on customers.customerid = invoices.customerid;
+
+--4. Show the Employees who are Sales Agents.
+
+select firstname, lastname, title from employees where title = 'Sales Support Agent';
+
+--5. Find a unique list of billing countries from the Invoice table.
+
+select billingcountry from invoices group by billingcountry;
+
+--6. Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name.
+
+select employees.FirstName, employees.LastName, employees.Title,
+invoices.InvoiceId
+from employees 
+join customers
+on employees.EmployeeId = customers.supportrepid
+join invoices
+on customers.customerid = invoices.customerid
+where title = 'Sales Support Agent';
+
+--7. Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
+
+select invoices.Total, customers.firstname ||' '|| customers.lastname as CustomerName, customers.country,
+employees.FirstName || ' ' || employees.LastName as SalesAgentName,
+invoices.InvoiceId
+from employees 
+join customers
+on employees.EmployeeId = customers.supportrepid
+join invoices
+on customers.customerid = invoices.customerid;
+
+--8. How many Invoices were there in 2009?
+
+Select count(*) from invoices
+where invoicedate like '2009%';
+
+--9. What are the total sales for 2009?
+
+Select sum(total) from invoices
+where invoicedate like '2009%';
+
+--10. Display the purchased track name with each invoice line ID.
+
+Select invoice_items.InvoiceId, tracks.Name
+from invoice_items
+join tracks
+on invoice_items.trackid = tracks.trackid;
+
+--11. Display the purchased track name AND artist name with each invoice line ID.
+
+Select invoice_items.InvoiceId, tracks.Name, artists.name
+from invoice_items
+join tracks
+on invoice_items.trackid = tracks.trackid
+join albums
+on tracks.albumid = albums.albumid
+join artists
+on albums.artistid = artists.artistid;
+
+--12. Display all the Tracks, and include the Album name, Media type, and Genre.
+
+Select tracks.name as trackname, albums.title as albumname, media_types.name as mediatype, genres.name as genre
+from tracks
+join albums
+on tracks.albumid = albums.albumid
+join genres
+on tracks.genreid = genres.genreid
+join media_types 
+on tracks.mediatypeid = media_types.mediatypeid;
+
+--13. Show the total sales made by each sales agent.
+
+Select employees.firstname ||' ' || employees.lastname as EmployeeName, sum(invoices.total) as TotalSales
+from employees 
+join customers
+on employees.EmployeeId = customers.supportrepid
+join invoices
+on customers.customerid = invoices.customerid
+group by employees.firstname;
+
+--14. Which sales agent made the most dollars in sales in 2009?
+
+Select employees.firstname ||' ' || employees.lastname as EmployeeName, sum(invoices.total) as TotalSales
+from employees 
+join customers
+on employees.EmployeeId = customers.supportrepid
+join invoices
+on customers.customerid = invoices.customerid
+where invoices.invoicedate like '2009%'
+group by employees.firstname
+order by sum(invoices.total) 
+desc limit 1;
